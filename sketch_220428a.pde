@@ -24,12 +24,30 @@ color selectedColorOrange;
 color selectedColorPurple;
 color selectedColorBlack;
 color selectedColorWhite;
+color tactileIndicator;
+
+float sliderX;
+float x;
+float y;
 
 void setup() {
   size(800, 600);
   background(white);
   strokeWeight(5);
   selectedColor = black;
+  sliderX = 200;
+  x = 25;
+  y = 5;
+}
+
+void mouseDragged() {
+  updateSlider();
+  if (mouseY > 100) {
+    stroke(selectedColor);
+    strokeWeight(y);
+    line(pmouseX, pmouseY, mouseX, mouseY);
+    strokeWeight(5);
+  }
 }
 
 void draw() {
@@ -47,7 +65,7 @@ void draw() {
   if (dist(40, 70, mouseX, mouseY) < 15) {
     selectedColorBlue = tactile;
   } else if (selectedColor == blue) {
-      selectedColorBlue = glow;
+    selectedColorBlue = glow;
   } else {
     selectedColorBlue = black;
   }
@@ -93,7 +111,14 @@ void draw() {
   } else {
     selectedColorWhite = black;
   }
-  
+  if (dist(sliderX, 50, mouseX, mouseY) < 25) {
+    tactileIndicator = glow;
+  } else if (selectedColor == black) {
+    tactileIndicator = white;
+  } else {
+    tactileIndicator = black;
+  } 
+
   fill(red);
   stroke(selectedColorRed);
   circle(40, 30, 30);
@@ -118,9 +143,21 @@ void draw() {
   fill(white);
   stroke(selectedColorWhite);
   circle(160, 70, 30);
+  if (sliderX < 200) {
+    sliderX = 200;
+  }
+  if (sliderX > 400) {
+    sliderX = 400;
+  }
+  stroke(black);
+  line(200, 50, 400, 50);
+  fill(selectedColor);
+  stroke(tactileIndicator);
+  circle(sliderX, 50, x);
 }
 
-void mouseReleased() {
+void mousePressed() {
+  updateSlider();
   if (dist(40, 30, mouseX, mouseY) < 15) {
     selectedColor = red;
     selectedColorRed = glow;
@@ -208,7 +245,19 @@ void mouseReleased() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = glow;
-  }    
-  stroke(selectedColor);
-  line(mouseX, mouseY, mouseX, mouseY);
+  }  
+  if (mouseY > 100) {
+    stroke(selectedColor);
+    strokeWeight(y);
+    line(pmouseX, pmouseY, mouseX, mouseY);
+    strokeWeight(5);
+  }
+}
+
+void updateSlider() {
+  if (mouseX > 190 && mouseX < 410 && mouseY < 60 && mouseY > 40) {
+    sliderX = mouseX;
+  } 
+  x = map(sliderX, 200, 400, 25, 60);
+  y = map(sliderX, 200, 400, 5, 60);
 }
