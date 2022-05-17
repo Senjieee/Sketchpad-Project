@@ -25,10 +25,16 @@ color selectedColorPurple;
 color selectedColorBlack;
 color selectedColorWhite;
 color tactileIndicator;
+color shrekIndicator;
 
 float sliderX;
 float x;
 float y;
+float z;
+
+PImage shrek;
+
+boolean shrekOn;
 
 void setup() {
   size(800, 600);
@@ -38,17 +44,24 @@ void setup() {
   sliderX = 200;
   x = 25;
   y = 5;
+  shrek = loadImage("shrek.png");
 }
 
 void mouseDragged() {
-  updateSlider();
+updateSlider();
   if (mouseY > 100) {
+  if (shrekOn == false) {
     stroke(selectedColor);
     strokeWeight(y);
     line(pmouseX, pmouseY, mouseX, mouseY);
     strokeWeight(5);
+    }
+    if (shrekOn == true) {
+    image(shrek, mouseX, mouseY, z, z);
+  }
   }
 }
+
 
 void draw() {
   stroke(black);
@@ -57,6 +70,8 @@ void draw() {
   stroke(selectedColor);
   if (dist(40, 30, mouseX, mouseY) < 15) {
     selectedColorRed = tactile;
+  } else if (shrekOn == true) {
+    selectedColorRed = black;
   } else if (selectedColor == red) {
     selectedColorRed = glow;
   } else {
@@ -64,6 +79,8 @@ void draw() {
   }
   if (dist(40, 70, mouseX, mouseY) < 15) {
     selectedColorBlue = tactile;
+  } else if (shrekOn == true) {
+    selectedColorBlue = black;
   } else if (selectedColor == blue) {
     selectedColorBlue = glow;
   } else {
@@ -71,6 +88,8 @@ void draw() {
   }
   if (dist(80, 30, mouseX, mouseY) < 15) {
     selectedColorYellow = tactile;
+  } else if (shrekOn == true) {
+    selectedColorYellow = black;
   } else if (selectedColor == yellow) {
     selectedColorYellow = glow;
   } else {
@@ -78,6 +97,8 @@ void draw() {
   }
   if (dist(80, 70, mouseX, mouseY) < 15) {
     selectedColorGreen = tactile;
+  } else if (shrekOn == true) {
+    selectedColorGreen = black;
   } else if (selectedColor == green) {
     selectedColorGreen = glow;
   } else {
@@ -85,6 +106,8 @@ void draw() {
   }
   if (dist(120, 30, mouseX, mouseY) < 15) {
     selectedColorOrange = tactile;
+  } else if (shrekOn == true) {
+    selectedColorOrange = black;
   } else if (selectedColor == orange) {
     selectedColorOrange = glow;
   } else { 
@@ -92,6 +115,8 @@ void draw() {
   }
   if (dist(120, 70, mouseX, mouseY) < 15) {
     selectedColorPurple = tactile;
+  } else if (shrekOn == true) {
+    selectedColorPurple = black;
   } else if (selectedColor == purple) {
     selectedColorPurple = glow;
   } else { 
@@ -99,6 +124,8 @@ void draw() {
   }
   if (dist(160, 30, mouseX, mouseY) < 15) {
     selectedColorBlack = tactile;
+  } else if (shrekOn == true) {
+    selectedColorBlack = black;
   } else if (selectedColor == black) {
     selectedColorBlack = glow;
   } else {
@@ -106,6 +133,8 @@ void draw() {
   }
   if (dist(160, 70, mouseX, mouseY) < 15) {
     selectedColorWhite = tactile;
+  } else if (shrekOn == true) {
+    selectedColorWhite = black;
   } else if (selectedColor == white) {
     selectedColorWhite = glow;
   } else {
@@ -118,6 +147,13 @@ void draw() {
   } else {
     tactileIndicator = black;
   } 
+  if (mouseX > 440 && mouseX < 530 && mouseY > 0 && mouseY < 100) {
+    shrekIndicator = tactile;
+  } else if (shrekOn == true) {
+    shrekIndicator = glow;
+  } else {
+    shrekIndicator = black;
+  }
 
   fill(red);
   stroke(selectedColorRed);
@@ -154,11 +190,20 @@ void draw() {
   fill(selectedColor);
   stroke(tactileIndicator);
   circle(sliderX, 50, x);
+  fill(shrekIndicator);
+  stroke(shrekIndicator);
+  rect(440, 5, 90, 90);
+  image(shrek, 445, 10, 80, 80);
+  if (shrekOn == true) {
+    tactileIndicator = black;
+    image(shrek, sliderX - x/2, x, x, x);
+  }
 }
 
 void mousePressed() {
   updateSlider();
   if (dist(40, 30, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = red;
     selectedColorRed = glow;
     selectedColorBlue = black;
@@ -168,8 +213,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(40, 70, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = blue;
     selectedColorRed = black;
     selectedColorBlue = glow;
@@ -179,8 +226,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(80, 30, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = yellow;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -190,8 +239,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(80, 70, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = green;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -201,8 +252,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(120, 30, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = orange;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -212,8 +265,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(120, 70, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = purple;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -223,8 +278,10 @@ void mousePressed() {
     selectedColorPurple = glow;
     selectedColorBlack = black;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(160, 30, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = black;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -234,8 +291,10 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = glow;
     selectedColorWhite = black;
+    shrekIndicator = black;
   }
   if (dist(160, 70, mouseX, mouseY) < 15) {
+    shrekOn = false;
     selectedColor = white;
     selectedColorRed = black;
     selectedColorBlue = black;
@@ -245,14 +304,33 @@ void mousePressed() {
     selectedColorPurple = black;
     selectedColorBlack = black;
     selectedColorWhite = glow;
+    shrekIndicator = black;
   }  
+  if (mouseX > 440 && mouseX < 530 && mouseY > 0 && mouseY < 100) {
+    shrekOn = true;
+    shrekIndicator = glow;
+    selectedColorRed = black;
+    selectedColorBlue = black;
+    selectedColorYellow = black;
+    selectedColorGreen = black;
+    selectedColorOrange = black;
+    selectedColorPurple = black;
+    selectedColorBlack = black;
+    selectedColorWhite = black;
+  }
   if (mouseY > 100) {
+  if (shrekOn == false) {
     stroke(selectedColor);
     strokeWeight(y);
     line(pmouseX, pmouseY, mouseX, mouseY);
     strokeWeight(5);
+    }
+    if (shrekOn == true) {
+    image(shrek, mouseX, mouseY, z, z);
+  }
   }
 }
+
 
 void updateSlider() {
   if (mouseX > 190 && mouseX < 410 && mouseY < 60 && mouseY > 40) {
@@ -260,4 +338,5 @@ void updateSlider() {
   } 
   x = map(sliderX, 200, 400, 25, 60);
   y = map(sliderX, 200, 400, 5, 60);
+  z = map(sliderX, 200, 400, 40, 200);
 }
