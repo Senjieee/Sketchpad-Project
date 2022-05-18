@@ -14,6 +14,7 @@ color black = color(0);
 color white = color(255);
 color glow = color(238, 245, 153);
 color tactile = color(209, 199, 107);
+color shrekGreen = color(199, 255, 126);
 
 color selectedColor;
 color selectedColorRed; 
@@ -26,11 +27,17 @@ color selectedColorBlack;
 color selectedColorWhite;
 color tactileIndicator;
 color shrekIndicator;
+color colorIndicator;
+color backgroundSelector;
+color tactileNew;
+color tactileSave;
+color tactileLoad;
 
 float sliderX;
 float x;
 float y;
 float z;
+float s;
 
 PImage shrek;
 
@@ -187,18 +194,56 @@ void draw() {
   }
   stroke(black);
   line(200, 50, 400, 50);
-  fill(selectedColor);
+  if (shrekOn == false) {
+    colorIndicator = selectedColor;
+  } else if (shrekOn == true) {
+    colorIndicator = shrekGreen;
+    if (dist(sliderX, 50, mouseX, mouseY) < 25) {
+    tactileIndicator = glow;
+    } else {
+      tactileIndicator = black;
+    }
+  } 
+  fill(colorIndicator);
   stroke(tactileIndicator);
   circle(sliderX, 50, x);
   fill(shrekIndicator);
   stroke(shrekIndicator);
   rect(440, 5, 90, 90);
   image(shrek, 445, 10, 80, 80);
-  if (shrekOn == true) {
-    tactileIndicator = black;
-    image(shrek, sliderX - x/2, x, x, x);
+  
+  fill(white);
+  stroke(tactileNew);
+  rect(550, 10, 80, 20);
+  stroke(tactileLoad);
+  rect(550, 40, 80, 20);
+  stroke(tactileSave);
+  rect(550, 70, 80, 20);
+  
+  stroke(backgroundSelector);
+  rect(650, 10, 130, 80);
+  
+  fill(black);
+  text("New", 577, 25);
+  text("Load", 575, 55);
+  text("Save", 575, 85);
+  
+  if (mouseX > 550 && mouseX < 630 && mouseY > 10 && mouseY < 30) {
+    tactileNew = glow;
+  } else {
+    tactileNew = black;
   }
-}
+ if (mouseX > 550 && mouseX < 630 && mouseY > 40 && mouseY < 60) {
+   tactileLoad = glow;
+ } else {
+   tactileLoad = black;
+ }
+ if (mouseX > 550 && mouseX < 630 && mouseY > 70 && mouseY < 90) {
+   tactileSave = glow;
+ } else {
+   tactileSave = black;
+ }
+}   
 
 void mousePressed() {
   updateSlider();
@@ -329,8 +374,20 @@ void mousePressed() {
     image(shrek, mouseX, mouseY, z, z);
   }
   }
+ if (mouseX > 550 && mouseX < 630 && mouseY > 10 && mouseY < 30) {
+   background(white);
+ }
+ if (mouseX > 550 && mouseX < 630 && mouseY > 70 && mouseY < 90) {
+   selectOutput("Choose a name for your new image file", "saveImage");
+ }
 }
 
+void saveImage(File f) {
+  if (f != null) {
+    PImage canvas = get(0, 105, width=800, height=495);
+    canvas.save(f.getAbsolutePath());
+  }
+}
 
 void updateSlider() {
   if (mouseX > 190 && mouseX < 410 && mouseY < 60 && mouseY > 40) {
@@ -339,4 +396,5 @@ void updateSlider() {
   x = map(sliderX, 200, 400, 25, 60);
   y = map(sliderX, 200, 400, 5, 60);
   z = map(sliderX, 200, 400, 40, 200);
+  s = map(sliderX, 200, 400, 20, 55);
 }
